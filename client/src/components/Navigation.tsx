@@ -12,8 +12,8 @@ export default function Navigation() {
   const navItems = [
     { name: "Home", path: "/" },
     { name: "Browse", path: "/browse" },
-    { name: "Sell", path: "/sell" },
-    { name: "About", path: "/about" },
+    { name: "Sell", path: "/add-product" },
+    { name: "Dashboard", path: "/dashboard" },
   ];
 
   const isActive = (path: string) => {

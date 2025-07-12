@@ -89,12 +89,157 @@ export class MemStorage implements IStorage {
   private currentReviewId = 1;
 
   constructor() {
-    // Initialize with some categories
+    this.initializeCategories();
+    this.initializeSampleData();
+  }
+
+  private initializeCategories() {
     this.categories.set(1, { id: 1, name: "Tops", description: "Shirts, blouses, sweaters" });
     this.categories.set(2, { id: 2, name: "Dresses", description: "Casual and formal dresses" });
     this.categories.set(3, { id: 3, name: "Pants", description: "Jeans, trousers, leggings" });
     this.categories.set(4, { id: 4, name: "Shoes", description: "Sneakers, boots, heels" });
     this.categories.set(5, { id: 5, name: "Accessories", description: "Bags, jewelry, scarves" });
+  }
+
+  private initializeSampleData() {
+    // Add sample users
+    const sampleUsers = [
+      {
+        username: "emma_style",
+        email: "emma@example.com",
+        password: "password123",
+        firstName: "Emma",
+        lastName: "Johnson",
+        profileImageUrl: null,
+      },
+      {
+        username: "mike_vintage",
+        email: "mike@example.com", 
+        password: "password123",
+        firstName: "Mike",
+        lastName: "Chen",
+        profileImageUrl: null,
+      },
+      {
+        username: "sarah_eco",
+        email: "sarah@example.com",
+        password: "password123",
+        firstName: "Sarah",
+        lastName: "Williams",
+        profileImageUrl: null,
+      }
+    ];
+
+    sampleUsers.forEach(userData => {
+      const id = this.currentUserId++;
+      const user: User = {
+        ...userData,
+        id,
+        firstName: userData.firstName || null,
+        lastName: userData.lastName || null,
+        profileImageUrl: userData.profileImageUrl || null,
+        rating: "4.5",
+        reviewCount: Math.floor(Math.random() * 20) + 5,
+        isAdmin: id === 1 ? true : false, // Make first user admin
+        createdAt: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000), // Random date within last 30 days
+        updatedAt: new Date(),
+      };
+      this.users.set(id, user);
+    });
+
+    // Add sample products
+    const sampleProducts = [
+      {
+        title: "Vintage Denim Jacket",
+        description: "Classic blue denim jacket in excellent condition. Perfect for layering!",
+        price: 45.00,
+        originalPrice: 120.00,
+        size: "M",
+        condition: "good",
+        categoryId: 1,
+        sellerId: 1,
+        brand: "Levi's",
+        color: "Blue",
+        material: "Denim",
+        imageUrls: ["https://example.com/jacket1.jpg"]
+      },
+      {
+        title: "Floral Summer Dress",
+        description: "Beautiful floral midi dress, worn only a few times. Great for summer events!",
+        price: 32.00,
+        originalPrice: 89.00,
+        size: "S",
+        condition: "like_new",
+        categoryId: 2,
+        sellerId: 2,
+        brand: "Zara",
+        color: "Pink",
+        material: "Cotton",
+        imageUrls: ["https://example.com/dress1.jpg"]
+      },
+      {
+        title: "Black Leather Boots",
+        description: "Stylish ankle boots with minimal wear. Perfect for fall and winter.",
+        price: 65.00,
+        originalPrice: 150.00,
+        size: "8",
+        condition: "good",
+        categoryId: 4,
+        sellerId: 3,
+        brand: "Dr. Martens",
+        color: "Black",
+        material: "Leather",
+        imageUrls: ["https://example.com/boots1.jpg"]
+      },
+      {
+        title: "High-Waisted Jeans",
+        description: "Comfortable high-waisted jeans in great condition. Size 29.",
+        price: 28.00,
+        originalPrice: 78.00,
+        size: "29",
+        condition: "good",
+        categoryId: 3,
+        sellerId: 1,
+        brand: "American Eagle",
+        color: "Dark Blue",
+        material: "Denim",
+        imageUrls: ["https://example.com/jeans1.jpg"]
+      },
+      {
+        title: "Crossbody Bag",
+        description: "Trendy crossbody bag in tan leather. Has some minor wear but lots of life left.",
+        price: 22.00,
+        originalPrice: 55.00,
+        size: "One Size",
+        condition: "fair",
+        categoryId: 5,
+        sellerId: 2,
+        brand: "Coach",
+        color: "Tan",
+        material: "Leather",
+        imageUrls: ["https://example.com/bag1.jpg"]
+      }
+    ];
+
+    sampleProducts.forEach(productData => {
+      const id = this.currentProductId++;
+      const product: Product = {
+        ...productData,
+        id,
+        categoryId: productData.categoryId || null,
+        originalPrice: productData.originalPrice || null,
+        brand: productData.brand || null,
+        color: productData.color || null,
+        material: productData.material || null,
+        imageUrls: productData.imageUrls || null,
+        status: "active",
+        viewCount: Math.floor(Math.random() * 100) + 10,
+        isFeatured: Math.random() > 0.7,
+        createdAt: new Date(Date.now() - Math.random() * 14 * 24 * 60 * 60 * 1000), // Random date within last 2 weeks
+        updatedAt: new Date(),
+      };
+      this.products.set(id, product);
+    });
   }
 
   // Users

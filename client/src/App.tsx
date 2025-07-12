@@ -12,6 +12,7 @@ import ProductListing from "@/pages/ProductListing";
 import ProductDetail from "@/pages/ProductDetail";
 import UserDashboard from "@/pages/UserDashboard";
 import AdminPanel from "@/pages/AdminPanel";
+import AddProduct from "@/pages/AddProduct";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -24,7 +25,9 @@ function Router() {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/browse" component={ProductListing} />
+          <Route path="/products" component={ProductListing} />
           <Route path="/product/:id" component={ProductDetail} />
+          <Route path="/add-product" component={AddProduct} />
           <Route path="/dashboard" component={UserDashboard} />
           <Route path="/admin" component={AdminPanel} />
           <Route component={NotFound} />
