@@ -14,7 +14,7 @@ import type { Product, Category } from "@shared/schema";
 export default function ProductListing() {
   const [filters, setFilters] = useState({
     search: "",
-    categoryId: "",
+    categoryId: "all",
     condition: "",
     minPrice: "",
     maxPrice: "",
@@ -29,7 +29,7 @@ export default function ProductListing() {
     queryFn: async () => {
       const params = new URLSearchParams();
       if (filters.search) params.append("search", filters.search);
-      if (filters.categoryId) params.append("categoryId", filters.categoryId);
+      if (filters.categoryId && filters.categoryId !== "all") params.append("categoryId", filters.categoryId);
       if (filters.condition) params.append("condition", filters.condition);
       if (filters.minPrice) params.append("minPrice", filters.minPrice);
       if (filters.maxPrice) params.append("maxPrice", filters.maxPrice);
@@ -94,7 +94,7 @@ export default function ProductListing() {
                   <SelectValue placeholder="All Categories" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Categories</SelectItem>
+                  <SelectItem value="all">All Categories</SelectItem>
                   {categories.map((category) => (
                     <SelectItem key={category.id} value={category.id.toString()}>
                       {category.name}

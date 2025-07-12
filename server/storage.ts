@@ -352,6 +352,7 @@ export class MemStorage implements IStorage {
     const review: Review = {
       ...insertReview,
       id,
+      comment: insertReview.comment || null,
       createdAt: new Date(),
     };
     this.reviews.set(id, review);
