@@ -115,6 +115,9 @@ export class MemStorage implements IStorage {
     const user: User = {
       ...insertUser,
       id,
+      firstName: insertUser.firstName || null,
+      lastName: insertUser.lastName || null,
+      profileImageUrl: insertUser.profileImageUrl || null,
       rating: "0.0",
       reviewCount: 0,
       isAdmin: false,
@@ -188,6 +191,12 @@ export class MemStorage implements IStorage {
     const product: Product = {
       ...insertProduct,
       id,
+      categoryId: insertProduct.categoryId || null,
+      originalPrice: insertProduct.originalPrice || null,
+      brand: insertProduct.brand || null,
+      color: insertProduct.color || null,
+      material: insertProduct.material || null,
+      imageUrls: insertProduct.imageUrls || null,
       status: "active",
       viewCount: 0,
       isFeatured: false,
@@ -283,6 +292,7 @@ export class MemStorage implements IStorage {
     const message: Message = {
       ...insertMessage,
       id,
+      productId: insertMessage.productId || null,
       isRead: false,
       createdAt: new Date(),
     };
