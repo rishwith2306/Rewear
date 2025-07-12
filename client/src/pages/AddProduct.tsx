@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { z } from "zod";
 import {
@@ -19,13 +19,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
-import { insertProductSchema, type Category } from "@shared/schema";
+import { apiClient } from "@/lib/api";
 import { Upload, X, Plus } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
-const addProductSchema = insertProductSchema.extend({
+const addProductSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Description is required"),
   price: z.string().min(1, "Price is required"),
   originalPrice: z.string().optional(),
+  category: z.string().min(1, "Category is required"),
+  condition: z.string().min(1, "Condition is required"),
+  size: z.string().min(1, "Size is required"),
+  brand: z.string().optional(),
+  color: z.string().optional(),
+  material: z.string().optional(),
 });
 
 type AddProductForm = z.infer<typeof addProductSchema>;
@@ -36,6 +44,13 @@ export default function AddProduct() {
   const queryClient = useQueryClient();
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [newImageUrl, setNewImageUrl] = useState("");
+  const { user } = useAuth();
+
+  // Redirect if not authenticated
+  if (!user) {
+    setLocation("/login");
+    return null;
+  }
 
   const { data: categories = [] } = useQuery<Category[]>({
     queryKey: ["/api/categories"],

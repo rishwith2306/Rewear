@@ -106,8 +106,8 @@ export class MemStorage implements IStorage {
     const sampleUsers = [
       {
         username: "emma_style",
-        email: "emma@example.com",
-        password: "password123",
+        email: "rishwith@gmail.com",
+        password: "admin123",
         firstName: "Emma",
         lastName: "Johnson",
         profileImageUrl: null,
